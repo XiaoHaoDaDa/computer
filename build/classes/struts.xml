@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 开发者模式 -->
+	<constant name="struts.devMode" value="true"></constant>
+	<!-- 动态调用 -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.multipart.maxSize" value="1000000000" />
+	<package name="default" namespace="/" extends="json-default">
+
+		<action name="selectaction" class="Selectaction">
+			<result name="success">Selectaction.jsp</result>
+		</action>
+
+		<action name="t" class="t">
+			<result name="success">addcomputerType.jsp</result>
+		</action>
+		<action name="addcomType" class="addcomType">
+			<result name="success">
+				index.jsp
+			</result>
+		</action>
+		<action name="fenye" class="fenye">
+			<result name="success">index.jsp</result>
+		</action>
+
+
+		<action name="find" class="t">
+			<result type="json">
+				<param name="root">res</param>
+			</result>
+		</action>
+
+
+		<action name="selectcom" class="selectcom">
+			<result name="success">index.jsp</result>
+		</action>
+		<action name="de" class="de">
+			<result name="success" type="redirectAction">selectcom</result>
+		</action>
+		<action name="findct" class="findct">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="findprice" class="findprice">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="computer" class="com.hp.action.Addcomputer">
+			<result name="success" type="redirectAction">selectcom</result>
+		</action>
+		<action name="getone" class="getone">
+			<result name="success">updata.jsp</result>
+		</action>
+
+		<action name="updata" class="updata">
+			<result name="success" type="redirectAction">selectcom</result>
+		</action>
+
+
+
+
+		<action name="fandalljson" class="findall" method="findall">
+			<result type="json">
+				<param name="root">res</param>
+			</result>
+		</action>
+		<action name="findall" class="findall" method="findall">
+			<result name="success">basic.html</result>
+		</action>
+
+		<action name="secomjson" class="secomjson" method="selectcomjson">
+			<result type="json">
+				<param name="root">res</param>
+			</result>
+		</action>
+
+	</package>
+
+
+	<package name="default1" namespace="/" extends="json-default">
+		<action name="fen" class="fenye" method="fen">
+			<result type="json">
+				<param name="root">json</param>
+			</result>
+		</action>
+		<action name="fen1" class="fenye" method="fen">
+			<result name="success">
+				Selectaction.jsp
+			</result>
+		</action>
+
+		<action name="javajson" class="javajson">
+			<result type="json">
+				<param name="root">res</param>
+			</result>
+		</action>
+
+		<action name="java" class="javajson" method="one">
+
+			<result name="success">index.jsp</result>
+		</action>
+	</package>
+
+
+</struts>
+
+

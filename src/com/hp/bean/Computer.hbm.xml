@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2018-1-15 15:37:36 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.hp.bean.Computer" table="COMPUTER">
+        <id name="com_id" type="java.lang.Integer">
+            <column name="COM_ID" />
+            <generator class="increment" />
+        </id>
+        <property name="com_name" type="java.lang.String">
+            <column name="COM_NAME" />
+        </property>
+        <many-to-one name="memory" class="com.hp.bean.ComputerType" lazy="false" fetch="join">
+            <column name="MEMORY" />
+        </many-to-one>
+        <many-to-one name="cpu" class="com.hp.bean.ComputerType" lazy="false" fetch="join">
+            <column name="CPU" />
+        </many-to-one>
+        <many-to-one name="videocard" class="com.hp.bean.ComputerType" lazy="false" fetch="join">
+            <column name="VIDEOCARD" />
+        </many-to-one>
+        <many-to-one name="display" class="com.hp.bean.ComputerType" lazy="false" fetch="join">
+            <column name="DISPLAY" />
+        </many-to-one>
+        <many-to-one name="hdd" class="com.hp.bean.ComputerType" lazy="false" fetch="join">
+            <column name="HDD" />
+        </many-to-one>
+        <property name="price" type="java.lang.Integer">
+            <column name="PRICE" />
+        </property>
+    </class>
+</hibernate-mapping>

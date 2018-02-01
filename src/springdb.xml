@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	<bean id="ds"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost/computer"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="root"></property>
+	</bean>
+	<!-- 加强事物 -->
+	<bean id="txManger"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="localSessionFactoryBean"></property>
+	</bean>
+	<tx:advice id="txAdvice" transaction-manager="txManger">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+	<!-- 配置切点 -->
+	<aop:config>
+		<aop:pointcut id="interceptorPointCuts" expression="execution(* com.hp.dao.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="interceptorPointCuts" />
+	</aop:config>
+
+	<!-- 配置session工厂 -->
+	<bean id="localSessionFactoryBean"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="configLocation" value="classpath:hibernate.cfg.xml"></property>
+		<property name="dataSource" ref="ds"></property>
+	</bean>
+	<bean id="HibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+		<property name="sessionFactory" ref="localSessionFactoryBean"></property>
+	</bean>
+
+	<!-- 配置dao层 -->
+	<bean id="daoimole" class="com.hp.dao.Daoimple">
+		<property name="h" ref="HibernateTemplate"></property>
+	</bean>
+
+
+	<bean id="JavaProDaoimp" class="com.hp.dao.JavaProDaoimp">
+		<property name="h" ref="HibernateTemplate"></property>
+	</bean>
+
+	<bean id="service" class="com.hp.service.Serviceimple">
+		<property name="dao" ref="daoimole"></property>
+	</bean>
+
+
+	<bean id="t" class="com.hp.action.SelectType">
+		<property name="service" ref="service"></property>
+	</bean>
+	<bean id="computer" class="com.hp.bean.Computer"></bean>
+	<bean id="computertype" class="com.hp.bean.ComputerType"></bean>
+	<bean id="type" class="com.hp.bean.Comtype"></bean>
+	<bean id="addcomType" class="com.hp.action.AddcomputerType">
+		<property name="type" ref="type"></property>
+		<property name="computertype" ref="computertype"></property>
+		<property name="service" ref="service"></property>
+	</bean>
+	<bean id="fenye" class="com.hp.action.FenYe">
+		<property name="service" ref="service"></property>
+	</bean>
+	<bean id="selectcom" class="com.hp.action.Selectcomputer">
+		<property name="service" ref="service"></property>
+	</bean>
+
+	<bean id="de" class="com.hp.action.Delectcom">
+		<property name="service" ref="service"></property>
+	</bean>
+	<bean id="findct" class="com.hp.action.Findct">
+		<property name="service" ref="service"></property>
+	</bean>
+	<bean id="adcomputer" class="com.hp.action.Addcomputer">
+		<property name="service" ref="service"></property>
+	</bean>
+
+	<bean id="getone" class="com.hp.action.Getone">
+		<property name="service" ref="service"></property>
+	</bean>
+	<bean id="findprice" class="com.hp.action.Findprice">
+		<property name="service" ref="service"></property>
+	</bean>
+	<bean id="updata" class="com.hp.action.Updata">
+		<property name="service" ref="service"></property>
+	</bean>
+
+	<bean id="javajson" class="com.hp.action.Java">
+		<property name="dao" ref="JavaProDaoimp"></property>
+	</bean>
+
+	<bean id="findall" class="com.hp.action.Java">
+		<property name="dao" ref="JavaProDaoimp"></property>
+	</bean>
+	
+	<bean id="secomjson" class="com.hp.action.Selectcomputer">
+		<property name="service" ref="service"></property>
+	</bean>
+	
+</beans>
